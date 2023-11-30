@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SuckChat</title>
+</head>
+<body>
+    <div>
+        <input id="input" type="text" />
+        <button id="send">Send</button>
+        <pre id="output"></pre>
+    </div>
+    
+    <script>
+        const input = document.getElementById("input");
+        const output = document.getElementById("output");
+        const send = document.getElementById("send");
+        const socket = new WebSocket("ws://localhost:8000/ws");
+
+        socket.addEventListener("open", () => {
+            output.innerHTML += "Status: Connected\n";
+        })
+
+        socket.addEventListener("message", e => {
+            output.innerHTML += "Server: " + e.data + "\n";
+        })
+
+        send.addEventListener("click", () => {
+            socket.send(input.value);
+            input.value = "";
+            console.log(socket.CONNECTING)
+        }) 
+    </script>
+</body>
+</html>
